@@ -1,10 +1,4 @@
 /*
- * Escritor.cpp
- *
- *  Created on: Dec 2, 2015
- *      Author: vitor
- 
-
 #include "Escritor.h"
 
 namespace br_ufes_inf_prog3_trab20152_io {

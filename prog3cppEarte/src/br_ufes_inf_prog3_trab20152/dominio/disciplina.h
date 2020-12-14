@@ -4,11 +4,12 @@
 #include <iostream>
 #include <string>
 #include <vector>
-
+#include "../atividades/atividade.h"
 #include "docente.h"
 #include "periodo.h"
 
 using namespace std;
+using namespace br_ufes_inf_prog3_trab20152_atividade;
 
 namespace br_ufes_inf_prog3_trab20152_dominio{
 
@@ -17,6 +18,7 @@ namespace br_ufes_inf_prog3_trab20152_dominio{
     string nome;
     Periodo* periodo;
     Docente* docente;
+    vector<Atividade*> atividades;
 
     public:
         Disciplina(string cdg, string nome, Periodo* p, Docente* d);
@@ -26,8 +28,10 @@ namespace br_ufes_inf_prog3_trab20152_dominio{
         Periodo* getPeriodo();
         Docente* getDocente();
         Disciplina* cadastraDisciplina();
+        vector<Atividade*> getAtividades();
 
-        void imprimeDisciplina(Disciplina* d);
+        void putAtividade(Atividade* ativ);
+        void imprimeAtividades(Disciplina* d);
     };
 } // namespace dominio
 

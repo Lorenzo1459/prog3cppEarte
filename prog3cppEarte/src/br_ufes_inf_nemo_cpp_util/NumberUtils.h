@@ -1,12 +1,3 @@
-/*
- * NumberUtils.h
- *
- * Utility functions for number manipulation.
- *
- *  Created on: Jul 10, 2014
- *      Author: Vítor E. Silva Souza (vitorsouza@gmail.com)
- */
-
 #ifndef NUMBERUTILS_H_
 #define NUMBERUTILS_H_
 

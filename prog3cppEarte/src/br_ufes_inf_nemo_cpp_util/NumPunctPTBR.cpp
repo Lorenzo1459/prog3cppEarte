@@ -1,12 +1,3 @@
-/*
- * NumPunctBR.cpp
- *
- * Subclass of numpunct<char> that specifies the character that separates integer and decimal parts in decimal numbers for the pt-BR locale.
- *
- *  Created on: Jul 10, 2014
- *      Author: http://ideone.com/bhZy3U
- */
-
 #include "../br_ufes_inf_nemo_cpp_util/NumPunctPTBR.h"
 
 namespace br_ufes_inf_nemo_cpp_util {

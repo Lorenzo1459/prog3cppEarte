@@ -1,12 +1,3 @@
-/*
- * StringUtils.h
- *
- * Utility functions for string manipulation.
- *
- *  Created on: Dec 3, 2015
- *      Author: Vítor E. Silva Souza (vitorsouza@gmail.com)
- */
-
 #ifndef STRINGUTILS_H_
 #define STRINGUTILS_H_
 

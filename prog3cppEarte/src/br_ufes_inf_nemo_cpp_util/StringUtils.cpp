@@ -1,14 +1,3 @@
-/*
- * StringUtils.cpp
- *
- * Utility functions for string manipulation.
- *
- *  Created on: Dec 3, 2015
- *      Author: Vítor E. Silva Souza (vitorsouza@gmail.com)
- *      *trim code copied from http://stackoverflow.com/questions/216823/whats-the-best-way-to-trim-stdstring
- *      stringCompare code adapted from code sent by Eduardo Dalapicola.
- */
-
 #include "StringUtils.h"
 
 using namespace std;

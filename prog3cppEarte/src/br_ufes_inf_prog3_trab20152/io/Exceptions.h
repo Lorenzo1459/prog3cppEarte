@@ -1,10 +1,3 @@
-/*
- * InconsistenciaException.h
- *
- *  Created on: Dec 3, 2015
- *      Author: vitor
- */
-
 #ifndef BR_UFES_INF_PROG3_TRAB20152_IO_EXCEPTIONS_H_
 #define BR_UFES_INF_PROG3_TRAB20152_IO_EXCEPTIONS_H_
 

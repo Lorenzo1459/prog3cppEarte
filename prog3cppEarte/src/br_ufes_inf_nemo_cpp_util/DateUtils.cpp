@@ -1,12 +1,3 @@
-/*
- * DateUtils.cpp
- *
- * Utility functions for date manipulation.
- *
- *  Created on: Jul 9, 2014
- *      Author: Vítor E. Silva Souza (vitorsouza@gmail.com)
- */
-
 #include "../br_ufes_inf_nemo_cpp_util/DateUtils.h"
 
 #include <iostream>

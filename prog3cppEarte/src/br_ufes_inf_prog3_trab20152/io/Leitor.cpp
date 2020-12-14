@@ -1,24 +1,15 @@
-/*
- * Leitor.cpp
- *
- *  Created on: Nov 30, 2015
- *      Author: vitor
- */
-
 #include "Leitor.h"
 
 namespace br_ufes_inf_prog3_trab20152_io {
 
-Leitor::Leitor(string nomeArquivoPeriodo, string nomeArquivoDocente, string nomeArquivoDisciplina, string nomeArquivoEstudante, string nomeArquivoMatriculas) {
+Leitor::Leitor(string nomeArquivoPeriodo, string nomeArquivoDocente, string nomeArquivoDisciplina, string nomeArquivoEstudante, string nomeArquivoMatriculas, string nomeArquivoAtividades) {
 	lerPeriodos(nomeArquivoPeriodo);
 	lerDocente(nomeArquivoDocente);
 	lerDisciplina(nomeArquivoDisciplina);
 	lerEstudantes(nomeArquivoEstudante);
 	lerMatriculas(nomeArquivoMatriculas);
-	/*
 	lerAtividades(nomeArquivoAtividades);
-	lerAvaliacoes(nomeArquivoAvaliacoes);
-	*/
+	//lerAvaliacoes(nomeArquivoAvaliacoes);
 }
 
 map<string, Periodo*> Leitor::getPeriodos() const {
@@ -39,6 +30,10 @@ map<long, Estudante*> Leitor::getEstudantes() const {
 
 vector<Matricula*> Leitor::getMatriculas() const {
 	return matriculas;
+}
+
+vector<Atividade*> Leitor::getAtividades() const {
+	return atividades;
 }
 
 void Leitor::lerPeriodos(string& nomeArquivoPeriodo) {
@@ -92,10 +87,6 @@ void ConversorCSVDisciplina::criarObjetoDeLinhaCSV(vector<string>& dados, vector
 void Leitor::lerMatriculas(string& nomeArquivoMatriculas) {
 	ConversorCSVMatriculas conversor(this);
 	conversor.lerArquivo(nomeArquivoMatriculas, matriculas);
-	for(int i=0; i < matriculas.size(); i++){
-		cout << "disc mat" << matriculas.at(i)->getDisciplina()->getCodigo() << endl;
-		cout << "est mat" << matriculas.at(i)->getEstudante()->getMatricula() << endl;
-	}
 }
 
 void ConversorCSVMatriculas::criarObjetoDeLinhaCSV(vector<string>& dados, vector<Matricula*>& lista) const{
@@ -109,6 +100,58 @@ void ConversorCSVMatriculas::criarObjetoDeLinhaCSV(vector<string>& dados, vector
 	Estudante* e = leitor->estudantes.at(mat);
 	Matricula* matricula = new Matricula(disc,e);
 	lista.push_back(matricula);
+}
+
+void Leitor::lerAtividades(string& nomeArquivoAtividade) {
+	ConversorCSVAtividades conversor(this);
+	conversor.lerArquivo(nomeArquivoAtividade, atividades);
+}
+
+void ConversorCSVAtividades::criarObjetoDeLinhaCSV(vector<string>& dados, vector<Atividade*>& lista) const{
+	Atividade* atividade = nullptr;
+	Tokenizer tok(dados[0],'-');
+	vector<string> cods = tok.remaining();
+	string codigoDisc = cods[0];
+	if(leitor->disciplinas.count(codigoDisc) == 0) throw InconsistenciaException("Disciplina: " + dados[0]);
+	string nome = dados[1];
+	char tipo = dados[2][0];
+	switch(tipo){
+		case 'A' : case 'a' : {
+			if (! validDate(dados.at(3), DATE_FORMAT_PT_BR_SHORT)) throw FormatacaoException();
+			time_t dataAula = parseDate(dados[2],DATE_FORMAT_PT_BR_SHORT);
+			string horaAula = dados[4];
+			Aula* aula = new Aula(tipo, 1, nome, dataAula, horaAula);
+			atividade = aula;
+			break;
+		}
+		case 'P' : case 'p' : {
+			if (! validDate(dados.at(3), DATE_FORMAT_PT_BR_SHORT)) throw FormatacaoException();
+			time_t dataProva = parseDate(dados[2],DATE_FORMAT_PT_BR_SHORT);
+			string horaProva = dados[4];
+			string conteudoProva = dados[5];
+			Prova* prova = new Prova(tipo, 1, nome, dataProva, horaProva, conteudoProva);
+			atividade = prova;
+			break;
+		}
+		case 'T' : case 't' : {
+			if (! validDate(dados.at(3), DATE_FORMAT_PT_BR_SHORT)) throw FormatacaoException();
+			time_t dataTrabalho = parseDate(dados[2],DATE_FORMAT_PT_BR_SHORT);
+			string cargaHorarioTrabalho = dados[7];
+			int qtIntegrantesTrabalho = stoi(dados[6]);
+			cout << "2" << endl;
+			Trabalho* trabalho = new Trabalho(tipo, 1, nome, dataTrabalho, cargaHorarioTrabalho, qtIntegrantesTrabalho);
+			atividade = trabalho;
+			break;
+		}
+		case 'E' : case 'e' : {
+			string conteudoEstudo = dados[5];
+			Estudo* estudo = new Estudo(tipo, 1, nome, conteudoEstudo);
+			atividade = estudo;
+			break;
+		}
+	}
+	leitor->disciplinas.at(codigoDisc)->putAtividade(atividade);
+	lista.push_back(atividade);
 }
 
 /*

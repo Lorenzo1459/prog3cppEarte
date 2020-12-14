@@ -1,12 +1,3 @@
-/*
- * DateUtils.h
- *
- * Utility functions for date manipulation.
- *
- *  Created on: Jul 9, 2014
- *      Author: Vítor E. Silva Souza (vitorsouza@gmail.com)
- */
-
 #ifndef DATEUTILS_H_
 #define DATEUTILS_H_
 

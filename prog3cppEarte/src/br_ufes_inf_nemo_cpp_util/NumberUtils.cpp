@@ -1,12 +1,3 @@
-/*
- * NumberUtils.cpp
- *
- * Utility functions for number manipulation.
- *
- *  Created on: Jul 10, 2014
- *      Author: Vítor E. Silva Souza (vitorsouza@gmail.com)
- */
-
 #include "../br_ufes_inf_nemo_cpp_util/NumberUtils.h"
 
 #include <iomanip>

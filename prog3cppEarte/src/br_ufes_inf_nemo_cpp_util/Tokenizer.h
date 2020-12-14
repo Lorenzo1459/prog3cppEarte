@@ -1,12 +1,3 @@
-/*
- * Tokenizer.h
- *
- * Class that separates a string in tokens, given a separator character.
- *
- *  Created on: Jul 10, 2014
- *      Author: Vítor E. Silva Souza (vitorsouza@gmail.com)
- */
-
 #ifndef TOKENIZER_H_
 #define TOKENIZER_H_
 

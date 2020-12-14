@@ -1,10 +1,5 @@
 /*
- * Escritor.h
- *
- *  Created on: Dec 2, 2015
- *      Author: vitor
  
-
 #ifndef BR_UFES_INF_PROG3_TRAB20152_IO_ESCRITOR_H_
 #define BR_UFES_INF_PROG3_TRAB20152_IO_ESCRITOR_H_
 

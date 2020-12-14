@@ -1,9 +1,4 @@
 /*
- * AplInveMid.cpp
- *
- *  Created on: Nov 30, 2015
- *      Author: vitor
- 
 
 #include "AplInveMid.h"
 

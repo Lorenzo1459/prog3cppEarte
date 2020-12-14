@@ -25,9 +25,17 @@ namespace br_ufes_inf_prog3_trab20152_dominio{
         return this->docente;
     }
 
-    void Disciplina::imprimeDisciplina(Disciplina* d){
-        cout << "    " << d->getCodigo() << "-" << endl;
-        //periodo
+    void Disciplina::putAtividade(Atividade* ativ){
+        atividades.push_back(ativ);
     }
-    
+
+    vector<Atividade*> Disciplina::getAtividades(){
+        return this->atividades;
+    }
+
+    void Disciplina::imprimeAtividades(Disciplina* d){
+        for(int i=0; i < d->atividades.size(); i++)
+            cout << d->getAtividades().at(i)->getTipoAtividade() << endl;
+    }
+  
 } //namespace dominio

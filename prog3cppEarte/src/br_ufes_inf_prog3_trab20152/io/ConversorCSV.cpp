@@ -1,10 +1,3 @@
-/*
- * ConversorCSV.h
- *
- *  Created on: Nov 30, 2015
- *      Author: vitor
- */
-
 #ifndef BR_UFES_INF_PROG3_TRAB20152_IO_CONVERSORCSV_CPP_
 #define BR_UFES_INF_PROG3_TRAB20152_IO_CONVERSORCSV_CPP_
 

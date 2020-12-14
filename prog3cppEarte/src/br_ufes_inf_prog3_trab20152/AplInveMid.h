@@ -1,9 +1,4 @@
 /*
- * AplInveMid.h
- *
- *  Created on: Nov 30, 2015
- *      Author: vitor
- 
 
 #ifndef BR_UFES_INF_PROG3_TRAB20152_APLINVEMID_H_
 #define BR_UFES_INF_PROG3_TRAB20152_APLINVEMID_H_
