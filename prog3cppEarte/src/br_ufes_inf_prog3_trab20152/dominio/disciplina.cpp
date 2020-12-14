@@ -2,7 +2,7 @@
 
 namespace br_ufes_inf_prog3_trab20152_dominio{
 
-    Disciplina::Disciplina(string cdg, string nome, string p, string d){
+    Disciplina::Disciplina(string cdg, string nome, Periodo* p, Docente* d){
     this->codigo = cdg;
     this->nome = nome;
     this->periodo = p;
@@ -17,11 +17,11 @@ namespace br_ufes_inf_prog3_trab20152_dominio{
         return this->nome;
     }
 
-    string Disciplina::getPeriodo(){
+    Periodo* Disciplina::getPeriodo(){
         return this->periodo;
     }
 
-    string Disciplina::getDocente(){
+    Docente* Disciplina::getDocente(){
         return this->docente;
     }
 

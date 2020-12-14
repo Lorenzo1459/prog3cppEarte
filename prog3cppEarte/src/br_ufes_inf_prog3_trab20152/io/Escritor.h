@@ -16,8 +16,6 @@
 #include <map>
 
 #include "Estatisticas.h"
-#include "MidiasPorPessoa.h"
-#include "Wishlist.h"
 #include "../dominio/Emprestimo.h"
 #include "../dominio/Midia.h"
 #include "../dominio/Pessoa.h"

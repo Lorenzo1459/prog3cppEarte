@@ -1,19 +1,13 @@
 /*
- * Estatisticas.h
- *
- *  Created on: Dec 2, 2015
- *      Author: vitor
- 
-
 #ifndef BR_UFES_INF_PROG3_TRAB20152_IO_ESTATISTICAS_H_
 #define BR_UFES_INF_PROG3_TRAB20152_IO_ESTATISTICAS_H_
 
 #include <set>
 #include <map>
 
-#include "../dominio/Genero.h"
-#include "../dominio/Midia.h"
-#include "../dominio/Serie.h"
+#include "../dominio/periodo.h"
+#include "../dominio/disciplina.h"
+#include "../dominio/docente.h"
 
 #include "../../br_ufes_inf_nemo_cpp_util/StringUtils.h"
 using namespace std;
@@ -22,21 +16,21 @@ using namespace br_ufes_inf_nemo_cpp_util;
 
 namespace br_ufes_inf_prog3_trab20152_io {
 
-class MidiasPorGenero {
-	Genero* genero;
+class DisciplinasPorPeriodo {
+	Periodo* periodos;
 	int qtd;
 
 public:
-	MidiasPorGenero(Genero* genero, int qtd);
+	DisciplinasPorPeriodo(Periodo* periodo, int qtd);
 
 	friend class Escritor;
 	friend class Estatisticas;
-	friend class MidiasPorGeneroComparator;
+	friend class DisciplinasPorPeriodoComparator;
 };
 
-class MidiasPorGeneroComparator {
+class DisciplinasPorPeriodoComparator {
 public:
-	bool operator()(const MidiasPorGenero* esq, const MidiasPorGenero* dir) const;
+	bool operator()(const DisciplinasPorPeriodo* esq, const DisciplinasPorPeriodo* dir) const;
 };
 
 class TemporadasPorSerie {
@@ -60,11 +54,11 @@ public:
 class Estatisticas {
 	int horasConsumidas;
 	int horasConsumir;
-	set<MidiasPorGenero*, MidiasPorGeneroComparator> midiasPorGenero;
+	set<DisciplinasPorPeriodo*, DisciplinasPorPeriodoComparator> DisciplinasPorPeriodo;
 	set<TemporadasPorSerie*, TemporadasPorSerieComparator> temporadasPorSerie;
 
 public:
-	Estatisticas(const map<string, Genero*>& generos, const map<int, Midia*>& midias, const map<string, Serie*>& series);
+	Estatisticas(const map<string, Periodo*>& periodos, const map<string, Disciplina*>& disciplinas, const map<string, Docente*>& docentes);
 
 	friend class Escritor;
 };
@@ -73,4 +67,4 @@ public:
 
 }  namespace br_ufes_inf_prog3_trab20152_io 
 
-#endif  BR_UFES_INF_PROG3_TRAB20152_IO_ESTATISTICAS_H_ */
+#endif /* BR_UFES_INF_PROG3_TRAB20152_IO_ESTATISTICAS_H_ */

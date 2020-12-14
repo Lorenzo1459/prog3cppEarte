@@ -1,7 +1,7 @@
 all: main
 
 run:
-	@./main -p periodos.csv -d docentes.csv -o disciplinas.csv -e estudantes.csv
+	@./main -p periodos.csv -d docentes.csv -o disciplinas.csv -e estudantes.csv -m matriculas.csv
 
 clean:
 	@rm -rf bin main
@@ -33,7 +33,7 @@ bin/br_ufes_inf_nemo_cpp_util/Tokenizer.o: bin/br_ufes_inf_nemo_cpp_util src/br_
 #
 # Classes de domínio:
 #
-PACOTE_DOMINIO=bin/br_ufes_inf_prog3_trab20152/dominio/Estudante.o bin/br_ufes_inf_prog3_trab20152/dominio/Periodo.o bin/br_ufes_inf_prog3_trab20152/dominio/Disciplina.o bin/br_ufes_inf_prog3_trab20152/dominio/Docente.o
+PACOTE_DOMINIO=bin/br_ufes_inf_prog3_trab20152/dominio/Estudante.o bin/br_ufes_inf_prog3_trab20152/dominio/Periodo.o bin/br_ufes_inf_prog3_trab20152/dominio/Disciplina.o bin/br_ufes_inf_prog3_trab20152/dominio/Docente.o bin/br_ufes_inf_prog3_trab20152/dominio/Matricula.o
 
 bin/br_ufes_inf_prog3_trab20152/dominio:
 	mkdir -p bin/br_ufes_inf_prog3_trab20152/dominio
@@ -47,6 +47,9 @@ bin/br_ufes_inf_prog3_trab20152/dominio/Periodo.o: bin/br_ufes_inf_prog3_trab201
 bin/br_ufes_inf_prog3_trab20152/dominio/Disciplina.o: bin/br_ufes_inf_prog3_trab20152/dominio src/br_ufes_inf_prog3_trab20152/dominio/Disciplina.cpp src/br_ufes_inf_prog3_trab20152/dominio/Disciplina.h src/br_ufes_inf_prog3_trab20152/dominio/Periodo.h src/br_ufes_inf_prog3_trab20152/dominio/Docente.h
 	g++ -std=c++11 -o bin/br_ufes_inf_prog3_trab20152/dominio/Disciplina.o -c src/br_ufes_inf_prog3_trab20152/dominio/Disciplina.cpp
 
+bin/br_ufes_inf_prog3_trab20152/dominio/Matricula.o: bin/br_ufes_inf_prog3_trab20152/dominio src/br_ufes_inf_prog3_trab20152/dominio/Matricula.cpp src/br_ufes_inf_prog3_trab20152/dominio/Matricula.h src/br_ufes_inf_prog3_trab20152/dominio/Disciplina.h src/br_ufes_inf_prog3_trab20152/dominio/Estudante.h 
+	g++ -std=c++11 -o bin/br_ufes_inf_prog3_trab20152/dominio/Matricula.o -c src/br_ufes_inf_prog3_trab20152/dominio/Matricula.cpp
+	
 bin/br_ufes_inf_prog3_trab20152/dominio/Docente.o: bin/br_ufes_inf_prog3_trab20152/dominio src/br_ufes_inf_prog3_trab20152/dominio/Docente.cpp src/br_ufes_inf_prog3_trab20152/dominio/Docente.h
 	g++ -std=c++11 -o bin/br_ufes_inf_prog3_trab20152/dominio/Docente.o -c src/br_ufes_inf_prog3_trab20152/dominio/Docente.cpp
 
@@ -70,7 +73,7 @@ bin/br_ufes_inf_prog3_trab20152/io/Escritor.o: bin/br_ufes_inf_prog3_trab20152/i
 bin/br_ufes_inf_prog3_trab20152/io/Exceptions.o: bin/br_ufes_inf_prog3_trab20152/io src/br_ufes_inf_prog3_trab20152/io/Exceptions.cpp src/br_ufes_inf_prog3_trab20152/io/Exceptions.h 
 	g++ -std=c++11 -o bin/br_ufes_inf_prog3_trab20152/io/Exceptions.o -c src/br_ufes_inf_prog3_trab20152/io/Exceptions.cpp
 
-bin/br_ufes_inf_prog3_trab20152/io/Leitor.o: bin/br_ufes_inf_prog3_trab20152/io src/br_ufes_inf_prog3_trab20152/io/Leitor.cpp src/br_ufes_inf_prog3_trab20152/io/Leitor.h src/br_ufes_inf_prog3_trab20152/io/ConversorCSV.cpp src/br_ufes_inf_prog3_trab20152/dominio/Estudante.h src/br_ufes_inf_prog3_trab20152/dominio/Periodo.h src/br_ufes_inf_prog3_trab20152/dominio/Disciplina.h src/br_ufes_inf_prog3_trab20152/dominio/Docente.h src/br_ufes_inf_nemo_cpp_util/DateUtils.h src/br_ufes_inf_nemo_cpp_util/NumberUtils.h src/br_ufes_inf_nemo_cpp_util/Tokenizer.h
+bin/br_ufes_inf_prog3_trab20152/io/Leitor.o: bin/br_ufes_inf_prog3_trab20152/io src/br_ufes_inf_prog3_trab20152/io/Leitor.cpp src/br_ufes_inf_prog3_trab20152/io/Leitor.h src/br_ufes_inf_prog3_trab20152/io/ConversorCSV.cpp src/br_ufes_inf_prog3_trab20152/dominio/Estudante.h src/br_ufes_inf_prog3_trab20152/dominio/Matricula.h src/br_ufes_inf_prog3_trab20152/dominio/Periodo.h src/br_ufes_inf_prog3_trab20152/dominio/Disciplina.h src/br_ufes_inf_prog3_trab20152/dominio/Docente.h src/br_ufes_inf_nemo_cpp_util/DateUtils.h src/br_ufes_inf_nemo_cpp_util/NumberUtils.h src/br_ufes_inf_nemo_cpp_util/Tokenizer.h
 	g++ -std=c++11 -o bin/br_ufes_inf_prog3_trab20152/io/Leitor.o -c src/br_ufes_inf_prog3_trab20152/io/Leitor.cpp	
 
 #

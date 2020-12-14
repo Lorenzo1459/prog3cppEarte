@@ -1,18 +1,12 @@
 /*
- * Estatisticas.cpp
- *
- *  Created on: Dec 2, 2015
- *      Author: vitor
- 
-
 #include "Estatisticas.h"
 
 namespace br_ufes_inf_prog3_trab20152_io {
 
-Estatisticas::Estatisticas(const map<string, Genero*>& generos, const map<int, Midia*>& midias, const map<string, Serie*>& series) {
-	horasConsumidas = horasConsumir = 0;
+Estatisticas::Estatisticas(const map<string, Periodo*>& periodos, const map<string, Disciplina*>& disciplinas, const map<string, Docente*>& docentes) {
+	//horasConsumidas = horasConsumir = 0;
 
-	map<Genero*, int> qtdGen;
+	map<Periodo*, int> qtdPer;
 	for (pair<string, Genero*> par : generos) qtdGen.insert(pair<Genero*, int>(par.second, 0));
 
 	map<Serie*, int> qtdSerJa;
@@ -44,22 +38,22 @@ Estatisticas::Estatisticas(const map<string, Genero*>& generos, const map<int, M
 		}
 	}
 
-	for (pair<string, Genero*> par : generos)
-		midiasPorGenero.insert(new MidiasPorGenero(par.second, qtdGen.at(par.second)));
+	for (pair<string, Periodo*> par : periodos)
+		DisciplinasPorPeriodo.insert(new DisciplinasPorPeriodo(par.second, qtdPer.at(par.second)));
 
 	for (pair<string, Serie*> par : series)
 		temporadasPorSerie.insert(new TemporadasPorSerie(par.second, qtdSerJa.at(par.second), qtdSerA.at(par.second)));
 }
 
-MidiasPorGenero::MidiasPorGenero(Genero* genero, int qtd) {
-	this->genero = genero;
+DisciplinasPorPeriodo::DisciplinasPorPeriodo(Periodo* periodo, int qtd) {
+	this->periodos = periodos;
 	this->qtd = qtd;
 }
 
-bool MidiasPorGeneroComparator::operator()(const MidiasPorGenero* esq, const MidiasPorGenero* dir) const {
+bool DisciplinasPorPeriodoComparator::operator()(const DisciplinasPorPeriodo* esq, const DisciplinasPorPeriodo* dir) const {
 	int cmp = esq->qtd - dir->qtd;
 	if (cmp != 0) return (cmp > 0);
-	return (esq != dir) && stringCompare(esq->genero->getNome(), dir->genero->getNome());
+	return (esq != dir) && stringCompare(esq->periodos->getPeriodoString(esq->periodos), dir->periodos->getPeriodoString(dir->periodos));
 }
 
 TemporadasPorSerie::TemporadasPorSerie(Serie* serie, int qtdJa, int qtdA) {
@@ -72,4 +66,5 @@ bool TemporadasPorSerieComparator::operator()(const TemporadasPorSerie* esq, con
 	return (esq != dir) && stringCompare(esq->serie->getNome(), dir->serie->getNome());
 }
 
-}  namespace br_ufes_inf_prog3_trab20152_io */
+} /* namespace br_ufes_inf_prog3_trab20152_io */
+

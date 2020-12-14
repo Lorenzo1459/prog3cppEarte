@@ -16,6 +16,7 @@
 #include "../dominio/docente.h"
 #include "../dominio/estudante.h"
 #include "../dominio/periodo.h"
+#include "../dominio/matricula.h"
 #include "../../br_ufes_inf_nemo_cpp_util/DateUtils.h"
 #include "../../br_ufes_inf_nemo_cpp_util/NumberUtils.h"
 #include "../../br_ufes_inf_nemo_cpp_util/Tokenizer.h"
@@ -32,26 +33,34 @@ class Leitor {
 	map<string, Docente*> docentes;
 	map<string, Disciplina*> disciplinas;
 	map<long, Estudante*> estudantes;
-	//map<string, Serie*> series;
-	//vector<Emprestimo*> emprestimos;
+	vector<Matricula*> matriculas;
 
 	void lerPeriodos(string& nomeArquivoPeriodos);
 	void lerDocente(string& nomeArquivoDocente);
 	void lerDisciplina(string& nomeArquivoDisciplina);
 	void lerEstudantes(string& nomeArquivoEstudantes);
+	void lerMatriculas(string& nomeArquivoMatriculas);
+	/*
+	void lerAtividades(string& nomeArquivoAtividades);
+	void lerAvaliacoes(string& nomeArquivoAvaliacoes);
+	*/
 
 public:
-	Leitor(string nomeArquivoPeriodos, string nomeArquivoDocente, string nomeArquivoDisciplina, string nomeArquivoEstudantes);
+	Leitor(string nomeArquivoPeriodo, string nomeArquivoDocente, string nomeArquivoDisciplina, string nomeArquivoEstudante, string nomeArquivoMatriculas);
 
 	map<string, Periodo*> getPeriodos() const;
 	map<string, Docente*> getDocentes() const;
 	map<string, Disciplina*> getDisciplinas() const;
 	map<long, Estudante*> getEstudantes() const;
+	vector<Matricula*> getMatriculas() const;
 
 	friend class ConversorCSVPeriodo;
 	friend class ConversorCSVDocente;
 	friend class ConversorCSVDisciplina;
 	friend class ConversorCSVEstudante;
+	friend class ConversorCSVMatriculas;
+	//friend class ConversorCSVAtividades;
+	//friend class ConversorCSVAvaliacoes;
 };
 
 
@@ -78,6 +87,12 @@ public:
 	ConversorCSVEstudante(Leitor* leitor): ConversorCSV<Estudante*>(leitor) { }
 	void criarObjetoDeLinhaCSV(vector<string>& dados, vector<Estudante*>& lista) const;
 };
+
+class ConversorCSVMatriculas: public ConversorCSV<Matricula*> {
+public:
+	ConversorCSVMatriculas(Leitor* leitor): ConversorCSV<Matricula*>(leitor) { }
+	void criarObjetoDeLinhaCSV(vector<string>& dados, vector<Matricula*>& lista) const;
+}; 
 
 } /* namespace br_ufes_inf_prog3_trab20152_io */
 

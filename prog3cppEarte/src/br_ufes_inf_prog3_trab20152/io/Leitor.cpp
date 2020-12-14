@@ -9,11 +9,16 @@
 
 namespace br_ufes_inf_prog3_trab20152_io {
 
-Leitor::Leitor(string nomeArquivoPeriodo, string nomeArquivoDocente, string nomeArquivoDisciplina, string nomeArquivoEstudante) {
+Leitor::Leitor(string nomeArquivoPeriodo, string nomeArquivoDocente, string nomeArquivoDisciplina, string nomeArquivoEstudante, string nomeArquivoMatriculas) {
 	lerPeriodos(nomeArquivoPeriodo);
 	lerDocente(nomeArquivoDocente);
 	lerDisciplina(nomeArquivoDisciplina);
 	lerEstudantes(nomeArquivoEstudante);
+	lerMatriculas(nomeArquivoMatriculas);
+	/*
+	lerAtividades(nomeArquivoAtividades);
+	lerAvaliacoes(nomeArquivoAvaliacoes);
+	*/
 }
 
 map<string, Periodo*> Leitor::getPeriodos() const {
@@ -30,6 +35,10 @@ map<string, Disciplina*> Leitor::getDisciplinas() const {
 
 map<long, Estudante*> Leitor::getEstudantes() const {
 	return estudantes;
+}
+
+vector<Matricula*> Leitor::getMatriculas() const {
+	return matriculas;
 }
 
 void Leitor::lerPeriodos(string& nomeArquivoPeriodo) {
@@ -57,7 +66,7 @@ void Leitor::lerDocente(string& nomeArquivoDocente) {
 
 void ConversorCSVDocente::criarObjetoDeLinhaCSV(vector<string>& dados, vector<Docente*>& lista) const {
 	if (isNumber(dados.at(0)) || isNumber(dados.at(1)) || isNumber(dados.at(2))) throw FormatacaoException();
-	Docente* docente = new Docente(dados[0], dados[1], dados[2]);
+	Docente* docente = new Docente(dados[1], dados[0], dados[2]);
 	lista.push_back(docente);
 }
 
@@ -70,8 +79,36 @@ void Leitor::lerDisciplina(string& nomeArquivoDisciplina) {
 }
 
 void ConversorCSVDisciplina::criarObjetoDeLinhaCSV(vector<string>& dados, vector<Disciplina*>& lista) const {
-	Disciplina* d = new Disciplina(dados[0],dados[1],dados[2],dados[3]);
-	lista.push_back(d);
+	string per = dados[0];
+	string codigo = dados[1];
+	string nome = dados[2];
+	string login = dados[3];
+	Periodo* p = leitor->periodos.at(per);
+	Docente* d = leitor->docentes.at(login);
+	Disciplina* disc = new Disciplina(codigo,nome,p,d);
+	lista.push_back(disc);
+}
+
+void Leitor::lerMatriculas(string& nomeArquivoMatriculas) {
+	ConversorCSVMatriculas conversor(this);
+	conversor.lerArquivo(nomeArquivoMatriculas, matriculas);
+	for(int i=0; i < matriculas.size(); i++){
+		cout << "disc mat" << matriculas.at(i)->getDisciplina()->getCodigo() << endl;
+		cout << "est mat" << matriculas.at(i)->getEstudante()->getMatricula() << endl;
+	}
+}
+
+void ConversorCSVMatriculas::criarObjetoDeLinhaCSV(vector<string>& dados, vector<Matricula*>& lista) const{
+	Tokenizer tok(dados[0],'-');
+	vector<string> cods = tok.remaining();
+	string codigoDisc = cods[0];
+	long mat = stol(dados.at(1));
+	if(leitor->disciplinas.count(codigoDisc) == 0) throw InconsistenciaException("Disciplina: " + dados[0]);
+	Disciplina* disc = leitor->disciplinas.at(codigoDisc);
+	if(leitor->estudantes.count(mat) == 0) throw InconsistenciaException("Estudante: " + dados[1]);
+	Estudante* e = leitor->estudantes.at(mat);
+	Matricula* matricula = new Matricula(disc,e);
+	lista.push_back(matricula);
 }
 
 /*
@@ -170,8 +207,8 @@ void Leitor::lerEstudantes(string& nomeArquivoEstudante) {
 }
 
 void ConversorCSVEstudante::criarObjetoDeLinhaCSV(vector<string>& dados, vector<Estudante*>& lista) const {
-	string teste = dados[0];
-	long mat = stol(teste);
+	string aux = dados[0];
+	long mat = stol(aux);
 	Estudante* e = new Estudante(mat,dados[1]);
 	lista.push_back(e);
 }

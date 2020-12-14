@@ -15,18 +15,16 @@ namespace br_ufes_inf_prog3_trab20152_dominio{
     class Disciplina{
     string codigo;
     string nome;
-    string periodo;
-    string docente;
-    //vector<Atividade*>* atividades;
-    //vector<Estudante*>* estudantes;
+    Periodo* periodo;
+    Docente* docente;
 
     public:
-        Disciplina(string cdg, string nome, string p, string d);
+        Disciplina(string cdg, string nome, Periodo* p, Docente* d);
 
         string getCodigo();
         string getNomeDisc();
-        string getPeriodo();
-        string getDocente();
+        Periodo* getPeriodo();
+        Docente* getDocente();
         Disciplina* cadastraDisciplina();
 
         void imprimeDisciplina(Disciplina* d);

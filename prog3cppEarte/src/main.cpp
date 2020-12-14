@@ -11,17 +11,18 @@ using namespace std;
 using namespace br_ufes_inf_prog3_trab20152_io;
 
 int main(int argc, char **argv){
-    string nomeArquivoPeriodo, nomeArquivoDocente, nomeArquivoDisciplina, nomeArquivoEstudante;
-		string pFlag("-p"), dFlag("-d"), oFlag("-o"), eFlag("-e");
+    string nomeArquivoPeriodo, nomeArquivoDocente, nomeArquivoDisciplina, nomeArquivoEstudante, nomeArquivoMatriculas;
+		string pFlag("-p"), dFlag("-d"), oFlag("-o"), eFlag("-e"), mFlag("-m");
 
 		for (int i = 0; i < argc; i++) {
 			if (pFlag.compare(argv[i]) == 0 && argc > i + 1) nomeArquivoPeriodo = argv[i + 1];
 			else if (dFlag.compare(argv[i]) == 0 && argc > i + 1) nomeArquivoDocente = argv[i + 1];
 			else if (oFlag.compare(argv[i]) == 0 && argc > i + 1) nomeArquivoDisciplina = argv[i + 1];
 			else if (eFlag.compare(argv[i]) == 0 && argc > i + 1) nomeArquivoEstudante = argv[i + 1];
+            else if (mFlag.compare(argv[i]) == 0 && argc > i + 1) nomeArquivoMatriculas = argv[i + 1];
 		}
-        if (! nomeArquivoPeriodo.empty() && ! nomeArquivoDocente.empty() && ! nomeArquivoDisciplina.empty() && ! nomeArquivoEstudante.empty()) {
-            Leitor* leitor = new Leitor(nomeArquivoPeriodo, nomeArquivoDocente, nomeArquivoDisciplina, nomeArquivoEstudante);
+        if (! nomeArquivoPeriodo.empty() && ! nomeArquivoDocente.empty() && ! nomeArquivoDisciplina.empty() && ! nomeArquivoEstudante.empty() && ! nomeArquivoMatriculas.empty()) {
+            Leitor* leitor = new Leitor(nomeArquivoPeriodo, nomeArquivoDocente, nomeArquivoDisciplina, nomeArquivoEstudante, nomeArquivoMatriculas);
             for(pair<string,Periodo*> p : leitor->getPeriodos()){
                 cout << p.first << endl;
             }
