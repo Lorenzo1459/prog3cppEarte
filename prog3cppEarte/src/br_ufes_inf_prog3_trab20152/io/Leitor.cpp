@@ -122,6 +122,7 @@ void ConversorCSVAtividades::criarObjetoDeLinhaCSV(vector<string>& dados, vector
 	Atividade* atividade = nullptr;
 	string codigoDisc = dados[0];
 	if(leitor->disciplinas.count(codigoDisc) == 0) throw InconsistenciaException("Disciplina: " + dados[0]);
+	Disciplina* d = leitor->disciplinas.at(codigoDisc);
 	string nome = dados[1];
 	char tipo = dados[2][0];
 	switch(tipo){
@@ -132,6 +133,7 @@ void ConversorCSVAtividades::criarObjetoDeLinhaCSV(vector<string>& dados, vector
 			Aula* aula = new Aula(tipo, 1, nome, dataAula, horaAula);
 			atividade = aula;
 			leitor->disciplinas.at(codigoDisc)->increaseNumSin();
+			leitor->getDocentes().at(d->getDocente()->getLogin())->increaseNumSinc();
 			break;
 		}
 		case 'P' : case 'p' : {
@@ -142,6 +144,7 @@ void ConversorCSVAtividades::criarObjetoDeLinhaCSV(vector<string>& dados, vector
 			Prova* prova = new Prova(tipo, 1, nome, dataProva, horaProva, conteudoProva);
 			atividade = prova;
 			leitor->disciplinas.at(codigoDisc)->increaseNumSin();
+			leitor->getDocentes().at(d->getDocente()->getLogin())->increaseNumSinc();
 			break;
 		}
 		case 'T' : case 't' : {
@@ -162,10 +165,9 @@ void ConversorCSVAtividades::criarObjetoDeLinhaCSV(vector<string>& dados, vector
 			break;
 		}
 	}
-	cout << "increaseSin: " << leitor->disciplinas.at(codigoDisc)->getNumSinc() << endl;
-	cout << "Num Ativ: " << leitor->disciplinas.at(codigoDisc)->getNumAtiv() << endl;
 	atividade->setNumAtiv(atividade, leitor->disciplinas.at(codigoDisc)->getNumAtiv());
 	leitor->disciplinas.at(codigoDisc)->putAtividade(atividade);
+	leitor->getDocentes().at(d->getDocente()->getLogin())->setNumAtiv(d->getNumAtiv());
 	lista.push_back(atividade);
 }
 
@@ -182,7 +184,7 @@ void ConversorCSVAvaliacao::criarObjetoDeLinhaCSV(vector<string>& dados, vector<
 		if(m->getDisciplina()->getCodigo() == codigoDisc && m->getEstudante()->getMatricula() == mat) verifica = 1;
 	if(verifica == 0) throw InconsistenciaException("Avaliacao: " + dados[1] + "em" + dados[0]);
 	int num = stoi(dados[2]);
-	cout << "Dados[3]: " << dados[3] << endl;
+	replace(dados[3].begin(),dados[3].end(),',','.');
 	float nota = stof(dados[3]);
 	Atividade* ativ = leitor->getDisciplinas().at(codigoDisc)->getAtividades().at(num-1);
 	Avaliacao* a = new Avaliacao(nota,ativ);

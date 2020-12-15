@@ -4,7 +4,7 @@ run:
 	@./main -p periodos.csv -d docentes.csv -o disciplinas.csv -e estudantes.csv -m matriculas.csv -a atividades.csv -n avaliacoes.csv
 
 clean:
-	@rm -rf bin main
+	@rm -rf bin main *.csv
 
 #
 # Classes do nemo-utils-cpp:

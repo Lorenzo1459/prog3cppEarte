@@ -31,11 +31,9 @@ namespace br_ufes_inf_prog3_trab20152_dominio{
             int getNumPeriodosDoc();
             void setNumAtiv(int n);
             float getMediaAtiv();
-            void increaseNumSinc(int n);
+            void increaseNumSinc();
             float getPercentSinc();
             float getPercentAssin();
-
-            void imprimeDocente(Docente* d);
     };
 
 } //namespace dominio

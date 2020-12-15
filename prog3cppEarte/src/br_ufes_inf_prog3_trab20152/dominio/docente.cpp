@@ -43,10 +43,8 @@ namespace br_ufes_inf_prog3_trab20152_dominio{
         return (float)this->numAtiv/this->numDisc;
     }
 
-    void Docente::increaseNumSinc(int n){
-        cout << "increaseSin N: " << n << endl;     
-        this->numSinc += n;
-        cout << "IncresaseSINcnumSIN: " << this->numSinc << endl;
+    void Docente::increaseNumSinc(){
+        this->numSinc++;
     }
     float Docente::getPercentSinc(){
         if(this->numAtiv != 0)
@@ -54,13 +52,8 @@ namespace br_ufes_inf_prog3_trab20152_dominio{
         return 0;
     }
     float Docente::getPercentAssin(){
-        return 100 - this->getPercentSinc();
-    }
-
-    void Docente::imprimeDocente(Docente* d){
-        cout << "    " << d->getNome() << endl;
-        cout << "    " << d->getLogin() << endl;
-        cout << "    " << d->getPagWeb() << endl;
-        cout << "-----------------------------------" << endl;
+        if(this->numAtiv != 0)
+            return 100 - this->getPercentSinc();
+        return 0;
     }
 } //namespace dominio
