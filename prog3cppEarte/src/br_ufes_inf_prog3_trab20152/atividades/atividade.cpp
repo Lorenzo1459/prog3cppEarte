@@ -15,4 +15,12 @@ namespace br_ufes_inf_prog3_trab20152_atividade{
         return this->modelo;
     }
 
+    void Atividade::setNumAtiv(Atividade* ativ, int anterior) const{
+        ativ->num = anterior + 1;
+    }
+
+    int Atividade::getNumAtiv() const{
+        return this->num;
+    }
+
 }

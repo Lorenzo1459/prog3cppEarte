@@ -15,8 +15,8 @@ namespace br_ufes_inf_prog3_trab20152_dominio{
         return this->semestre;
     }
 
-    string Periodo::getPeriodoString(Periodo* p){
-        return to_string(p->getAno()) + "/" + p->getSemestre();
+    string Periodo::getPeriodoString(){
+        return to_string(this->getAno()) + "/" + this->getSemestre();
     }
 
     void Periodo::imprimePeriodo(Periodo* p){

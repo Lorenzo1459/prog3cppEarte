@@ -29,8 +29,20 @@ namespace br_ufes_inf_prog3_trab20152_dominio{
         atividades.push_back(ativ);
     }
 
+    void Disciplina::putEstudante(Estudante* e){
+        estudantes.push_back(e);
+    }
+
+    vector<Estudante*> Disciplina::getEstudantes(){
+        return this->estudantes;
+    }
+
     vector<Atividade*> Disciplina::getAtividades(){
         return this->atividades;
+    }
+
+    int Disciplina::getNumAtiv(){
+        return atividades.size();
     }
 
     void Disciplina::imprimeAtividades(Disciplina* d){

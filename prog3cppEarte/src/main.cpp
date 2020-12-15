@@ -5,6 +5,8 @@
 //#include "br_ufes_inf_prog3_trab20152/AplInveMid.h"
 #include "br_ufes_inf_prog3_trab20152/io/Exceptions.h"
 #include "br_ufes_inf_prog3_trab20152/io/Leitor.h"
+#include "br_ufes_inf_prog3_trab20152/io/Escritor_csv.h"
+#include "br_ufes_inf_prog3_trab20152/io/relatorio.h"
 
 using namespace std;
 //using namespace br_ufes_inf_prog3_trab20152;
@@ -24,15 +26,12 @@ int main(int argc, char **argv){
 		}
         if (! nomeArquivoPeriodo.empty() && ! nomeArquivoDocente.empty() && ! nomeArquivoDisciplina.empty() && ! nomeArquivoEstudante.empty() && ! nomeArquivoMatriculas.empty() && ! nomeArquivoAtividades.empty()) {
             Leitor* leitor = new Leitor(nomeArquivoPeriodo, nomeArquivoDocente, nomeArquivoDisciplina, nomeArquivoEstudante, nomeArquivoMatriculas, nomeArquivoAtividades);
-            for(pair<string,Periodo*> p : leitor->getPeriodos()){
-                cout << p.first << endl;
-            }
-			for(pair<string,Docente*> d : leitor->getDocentes()){
-                cout << d.first << endl;
-            }
+            Relatorio* relatorio = new Relatorio();
+            //cout << p.first << endl;
+            relatorio->relatorioDisc(leitor->getDisciplinas(),leitor->getPeriodos());
 			for(pair<string,Disciplina*> o : leitor->getDisciplinas()){
-                for(int i=0; i < o.second->getAtividades().size(); i++)
-                    cout << o.second->getAtividades().at(i)->getTipoAtividade() << endl;
+                cout << "------" << o.second->getCodigo() << "------" << endl;
+                cout << o.second->getDocente()->getNome() << endl;
             }
             return 0;
 		}

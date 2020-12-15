@@ -78,7 +78,7 @@ bin/br_ufes_inf_prog3_trab20152/dominio/Docente.o: bin/br_ufes_inf_prog3_trab201
 #
 # Classes de I/O:
 #
-PACOTE_IO=bin/br_ufes_inf_prog3_trab20152/io/Escritor.o bin/br_ufes_inf_prog3_trab20152/io/Exceptions.o bin/br_ufes_inf_prog3_trab20152/io/Leitor.o bin/br_ufes_inf_prog3_trab20152/io/ConversorCSV.o
+PACOTE_IO=bin/br_ufes_inf_prog3_trab20152/io/Escritor_csv.o bin/br_ufes_inf_prog3_trab20152/io/Exceptions.o bin/br_ufes_inf_prog3_trab20152/io/Leitor.o bin/br_ufes_inf_prog3_trab20152/io/ConversorCSV.o bin/br_ufes_inf_prog3_trab20152/io/relatorio.o
 
 bin/br_ufes_inf_prog3_trab20152/io:
 	mkdir -p bin/br_ufes_inf_prog3_trab20152/io
@@ -86,11 +86,11 @@ bin/br_ufes_inf_prog3_trab20152/io:
 bin/br_ufes_inf_prog3_trab20152/io/ConversorCSV.o: src/br_ufes_inf_prog3_trab20152/io/ConversorCSV.cpp
 	g++ -std=c++11 -o bin/br_ufes_inf_prog3_trab20152/io/ConversorCSV.o -c src/br_ufes_inf_prog3_trab20152/io/ConversorCSV.cpp
 
-bin/br_ufes_inf_prog3_trab20152/io/Escritor.o: bin/br_ufes_inf_prog3_trab20152/io src/br_ufes_inf_prog3_trab20152/io/Escritor.cpp src/br_ufes_inf_prog3_trab20152/io/Escritor.h src/br_ufes_inf_nemo_cpp_util/DateUtils.h src/br_ufes_inf_nemo_cpp_util/NumberUtils.h
-	g++ -std=c++11 -o bin/br_ufes_inf_prog3_trab20152/io/Escritor.o -c src/br_ufes_inf_prog3_trab20152/io/Escritor.cpp
+bin/br_ufes_inf_prog3_trab20152/io/Escritor_csv.o: bin/br_ufes_inf_prog3_trab20152/io src/br_ufes_inf_prog3_trab20152/io/Escritor_csv.cpp src/br_ufes_inf_prog3_trab20152/io/Escritor_csv.h src/br_ufes_inf_nemo_cpp_util/DateUtils.h src/br_ufes_inf_nemo_cpp_util/NumberUtils.h
+	g++ -std=c++11 -o bin/br_ufes_inf_prog3_trab20152/io/Escritor_csv.o -c src/br_ufes_inf_prog3_trab20152/io/Escritor_csv.cpp
 
-#bin/br_ufes_inf_prog3_trab20152/io/Estatisticas.o: bin/br_ufes_inf_prog3_trab20152/io src/br_ufes_inf_prog3_trab20152/io/Estatisticas.cpp src/br_ufes_inf_prog3_trab20152/io/Estatisticas.h src/br_ufes_inf_prog3_trab20152/dominio/Periodo.h src/br_ufes_inf_prog3_trab20152/dominio/Disciplina.h
-#	g++ -std=c++11 -o bin/br_ufes_inf_prog3_trab20152/io/Estatisticas.o -c src/br_ufes_inf_prog3_trab20152/io/Estatisticas.cpp
+bin/br_ufes_inf_prog3_trab20152/io/relatorio.o: bin/br_ufes_inf_prog3_trab20152/io src/br_ufes_inf_prog3_trab20152/io/relatorio.cpp src/br_ufes_inf_prog3_trab20152/io/relatorio.h src/br_ufes_inf_prog3_trab20152/dominio/Periodo.h src/br_ufes_inf_prog3_trab20152/dominio/Disciplina.h
+	g++ -std=c++11 -o bin/br_ufes_inf_prog3_trab20152/io/relatorio.o -c src/br_ufes_inf_prog3_trab20152/io/relatorio.cpp
 
 bin/br_ufes_inf_prog3_trab20152/io/Exceptions.o: bin/br_ufes_inf_prog3_trab20152/io src/br_ufes_inf_prog3_trab20152/io/Exceptions.cpp src/br_ufes_inf_prog3_trab20152/io/Exceptions.h 
 	g++ -std=c++11 -o bin/br_ufes_inf_prog3_trab20152/io/Exceptions.o -c src/br_ufes_inf_prog3_trab20152/io/Exceptions.cpp
@@ -104,7 +104,7 @@ bin/br_ufes_inf_prog3_trab20152/io/Leitor.o: bin/br_ufes_inf_prog3_trab20152/io 
 bin/br_ufes_inf_prog3_trab20152:
 	mkdir -p bin/br_ufes_inf_prog3_trab20152
 
-bin/br_ufes_inf_prog3_trab20152/AplInveMid.o: bin/br_ufes_inf_prog3_trab20152 src/br_ufes_inf_prog3_trab20152/AplInveMid.cpp src/br_ufes_inf_prog3_trab20152/AplInveMid.h src/br_ufes_inf_prog3_trab20152/io/Escritor.h src/br_ufes_inf_prog3_trab20152/io/Leitor.h
+bin/br_ufes_inf_prog3_trab20152/AplInveMid.o: bin/br_ufes_inf_prog3_trab20152 src/br_ufes_inf_prog3_trab20152/AplInveMid.cpp src/br_ufes_inf_prog3_trab20152/AplInveMid.h src/br_ufes_inf_prog3_trab20152/io/Escritor_csv.h src/br_ufes_inf_prog3_trab20152/io/Leitor.h
 	g++ -std=c++11 -o bin/br_ufes_inf_prog3_trab20152/AplInveMid.o -c src/br_ufes_inf_prog3_trab20152/AplInveMid.cpp
 
 main: ${PACOTE_UTILS} ${PACOTE_ATIVIDADES} ${PACOTE_DOMINIO} ${PACOTE_IO} src/br_ufes_inf_prog3_trab20152/AplInveMid.h bin/br_ufes_inf_prog3_trab20152/AplInveMid.o src/main.cpp

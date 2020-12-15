@@ -23,7 +23,7 @@ namespace br_ufes_inf_prog3_trab20152_dominio{
         Periodo* cadastroPeriodo();
         void imprimeVectorPeriodos(vector<Periodo*>* vp);
 
-        string getPeriodoString(Periodo* p);
+        string getPeriodoString();
     };
 
 } //namespace dominio

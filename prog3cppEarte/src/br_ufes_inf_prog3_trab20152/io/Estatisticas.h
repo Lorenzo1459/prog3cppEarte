@@ -8,6 +8,7 @@
 #include "../dominio/periodo.h"
 #include "../dominio/disciplina.h"
 #include "../dominio/docente.h"
+#include "../dominio/docente.h"
 
 #include "../../br_ufes_inf_nemo_cpp_util/StringUtils.h"
 using namespace std;

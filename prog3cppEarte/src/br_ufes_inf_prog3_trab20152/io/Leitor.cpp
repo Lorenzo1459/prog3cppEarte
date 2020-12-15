@@ -41,7 +41,7 @@ void Leitor::lerPeriodos(string& nomeArquivoPeriodo) {
 	ConversorCSVPeriodo conversor(this);
 	conversor.lerArquivo(nomeArquivoPeriodo, lista);
 	for (Periodo* p : lista)
-		periodos.insert(pair<string, Periodo*>(p->getPeriodoString(p), p));
+		periodos.insert(pair<string, Periodo*>(p->getPeriodoString(),p));
 }
 
 void ConversorCSVPeriodo::criarObjetoDeLinhaCSV(vector<string>& dados, vector<Periodo*>& lista) const {
@@ -99,6 +99,7 @@ void ConversorCSVMatriculas::criarObjetoDeLinhaCSV(vector<string>& dados, vector
 	if(leitor->estudantes.count(mat) == 0) throw InconsistenciaException("Estudante: " + dados[1]);
 	Estudante* e = leitor->estudantes.at(mat);
 	Matricula* matricula = new Matricula(disc,e);
+	leitor->disciplinas.at(codigoDisc)->putEstudante(e);
 	lista.push_back(matricula);
 }
 
@@ -150,96 +151,26 @@ void ConversorCSVAtividades::criarObjetoDeLinhaCSV(vector<string>& dados, vector
 			break;
 		}
 	}
+	atividade->setNumAtiv(atividade, leitor->disciplinas.at(codigoDisc)->getNumAtiv());
 	leitor->disciplinas.at(codigoDisc)->putAtividade(atividade);
 	lista.push_back(atividade);
 }
 
 /*
-vector<Pessoa*> recuperarPessoas(string& codigos, map<int, Pessoa*>& pessoas) {
-	Tokenizer tok(codigos, ',');
-	vector<string> vec = tok.remaining();
-	vector<Pessoa*> lista;
-	for (string codigo : vec) {
-		int codPessoa = stoi(codigo);
-		if (pessoas.count(codPessoa) == 0) throw InconsistenciaException("A(u)tor: " + codigo);
-		Pessoa* pessoa = pessoas.at(codPessoa);
-		lista.push_back(pessoa);
-	}
-	return lista;
-} */
-/*
-void ConversorCSVDisciplina::criarObjetoDeLinhaCSV(vector<string>& dados, vector<Disciplina*>& lista) const {
-	Midia* midia = nullptr;
+void Leitor::LerAvaliacoes(string& nomeArquivoAvaliacoes){
+	vector<Avaliacoes*> lista;
+	ConversorCSVAvaliacoes conversor(this);
+	conversor.lerArquivo(nomeArquivoAvaliacoes, lista);
+}
 
-	if (leitor->generos.count(dados[6]) == 0) throw InconsistenciaException("Gênero: " + dados[6]);
-	Genero* genero = leitor->generos[dados[6]];
-
-	string cabecalhos[3] = { "Possui?", "Consumiu?", "Deseja?" };
-	for (int i = 0; i < 3; i++) {
-		int idx = i + 9;
-		if (dados.size() > idx && ! (dados.at(idx).empty() || stringCompare(dados.at(idx), "x") == 0))
-			throw InconsistenciaException(cabecalhos[i] + ": " + dados.at(idx));
-	}
-
-	double preco = (dados.size() > 12) ? parseDouble(dados.at(12), LOCALE_PT_BR) : 0;
-	bool possui = (dados.size() > 9 && (dados.at(9).compare("x") == 0 || dados.at(9).compare("X") == 0));
-	bool consumiu = (dados.size() > 10 && (dados.at(10).compare("x") == 0 || dados.at(10).compare("X") == 0));
-	bool deseja = (dados.size() > 11 && (dados.at(11).compare("x") == 0 || dados.at(11).compare("X") == 0));
-
-	if (dados.at(2).empty() || dados.at(2).size() > 1) throw InconsistenciaException("Tipo: " + dados.at(2));
-	char tipo = dados.at(2).at(0);
-	switch (tipo) {
-	case 'F': case 'f': {
-		int codDiretor = stoi(dados.at(3));
-		if (leitor->pessoas.count(codDiretor) == 0) throw InconsistenciaException("Diretor: " + dados.at(3));
-		Pessoa* diretor = leitor->pessoas.at(codDiretor);
-		Filme* filme = new Filme(stoi(dados.at(0)), dados.at(1), stoi(dados.at(5)), preco, possui, consumiu, deseja, genero, diretor);
-		midia = filme;
-
-		if (dados.size() < 13 && filme->isDeseja() && ! filme->isPossui())
-			throw InconsistenciaException("Preço: " + to_string(preco));
-
-		string atores(dados.at(4));
-		if (atores.size() > 0) {
-			vector<Pessoa*> pessoas = recuperarPessoas(atores, leitor->pessoas);
-			for (Pessoa* pessoa : pessoas) filme->adicionarAtor(pessoa);
-		}
-		break;
-	}
-
-	case 'L': case 'l': {
-		vector<Pessoa*> pessoas = recuperarPessoas(dados.at(4), leitor->pessoas);
-		midia = new Livro(stoi(dados.at(0)), dados.at(1), stoi(dados.at(5)), preco, possui, consumiu, deseja, genero, pessoas);
-		break;
-	}
-
-	case 'S': case 's': {
-		Temporada* temporada = nullptr;
-		if (leitor->series.count(dados.at(7)) > 0) {
-			Serie* serie = leitor->series.at(dados.at(7));
-			temporada = new Temporada(stoi(dados.at(0)), dados.at(1), stoi(dados.at(5)), preco, possui, consumiu, deseja, genero, serie);
-		}
-		else {
-			temporada = new Temporada(stoi(dados.at(0)), dados.at(1), stoi(dados.at(5)), preco, possui, consumiu, deseja, genero, dados.at(7));
-			leitor->series.insert(pair<string, Serie*>(dados.at(7), temporada->getSerie()));
-		}
-		midia = temporada;
-
-		string atores(dados.at(4));
-		if (atores.size() > 0) {
-			vector<Pessoa*> pessoas = recuperarPessoas(atores, leitor->pessoas);
-			for (Pessoa* pessoa : pessoas) temporada->adicionarAtor(pessoa);
-		}
-		break;
-	}
-	default:
-		throw InconsistenciaException("Tipo: " + dados.at(2));
-	}
-
-	lista.push_back(midia);
+void ConversorCSVAvaliacoes::criarObjetoDeLinhaCSV(vector<string>& dados, vector<Estudante*>& lista) const {
+	Tokenizer tok(dados[0],'-');
+	vector<string> cods = tok.remaining();
+	string codigoDisc = cods[0];
+	long mat = stol(dados.at(1));
+	
 }
 */
-
 
 void Leitor::lerEstudantes(string& nomeArquivoEstudante) {
 	vector<Estudante*> lista;
