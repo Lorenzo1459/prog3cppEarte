@@ -107,8 +107,5 @@ bin/br_ufes_inf_prog3_trab20152/io/Leitor.o: bin/br_ufes_inf_prog3_trab20152/io 
 bin/br_ufes_inf_prog3_trab20152:
 	mkdir -p bin/br_ufes_inf_prog3_trab20152
 
-bin/br_ufes_inf_prog3_trab20152/AplInveMid.o: bin/br_ufes_inf_prog3_trab20152 src/br_ufes_inf_prog3_trab20152/AplInveMid.cpp src/br_ufes_inf_prog3_trab20152/AplInveMid.h src/br_ufes_inf_prog3_trab20152/io/Escritor_csv.h src/br_ufes_inf_prog3_trab20152/io/Leitor.h
-	g++ -std=c++11 -o bin/br_ufes_inf_prog3_trab20152/AplInveMid.o -c src/br_ufes_inf_prog3_trab20152/AplInveMid.cpp
-
-main: ${PACOTE_UTILS} ${PACOTE_ATIVIDADES} ${PACOTE_DOMINIO} ${PACOTE_IO} src/br_ufes_inf_prog3_trab20152/AplInveMid.h bin/br_ufes_inf_prog3_trab20152/AplInveMid.o src/main.cpp
-	g++ -std=c++11 -o main src/main.cpp ${PACOTE_UTILS} ${PACOTE_ATIVIDADES} ${PACOTE_DOMINIO} ${PACOTE_IO} bin/br_ufes_inf_prog3_trab20152/AplInveMid.o
+main: ${PACOTE_UTILS} ${PACOTE_ATIVIDADES} ${PACOTE_DOMINIO} ${PACOTE_IO} src/main.cpp
+	g++ -std=c++11 -o main src/main.cpp ${PACOTE_UTILS} ${PACOTE_ATIVIDADES} ${PACOTE_DOMINIO} ${PACOTE_IO}

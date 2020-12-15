@@ -56,4 +56,17 @@ namespace br_ufes_inf_prog3_trab20152_dominio{
             return 100 - this->getPercentSinc();
         return 0;
     }
+
+    void Docente::putAvaliacaoDocente(Avaliacao* a){
+        this->avaliacoes.push_back(a);
+    }
+
+    float Docente::getMediaNotasDocente(){
+        float soma = 0;
+        for(Avaliacao* a : avaliacoes)
+            soma += a->getNota();
+        if(avaliacoes.size() != 0)
+            return soma/avaliacoes.size();
+        return 0;
+    }
 } //namespace dominio

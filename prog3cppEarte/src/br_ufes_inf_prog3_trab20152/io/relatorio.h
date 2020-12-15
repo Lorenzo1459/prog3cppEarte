@@ -4,7 +4,10 @@
 #include <set>
 #include <map>
 #include <string>
+#include <sstream>
+#include <iomanip>
 #include <iostream>
+#include <cmath>
 
 #include "../dominio/periodo.h"
 #include "../dominio/disciplina.h"

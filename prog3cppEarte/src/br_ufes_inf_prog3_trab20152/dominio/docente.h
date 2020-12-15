@@ -7,6 +7,7 @@
 #include <set>
 
 #include "periodo.h"
+#include "avaliacao.h"
 using namespace std;
 
 namespace br_ufes_inf_prog3_trab20152_dominio{
@@ -16,6 +17,7 @@ namespace br_ufes_inf_prog3_trab20152_dominio{
         string login;
         string paginaWeb;
         set<Periodo*> periodos;
+        vector<Avaliacao*> avaliacoes;
         int numDisc = 0;
         int numAtiv = 0;
         int numSinc = 0;
@@ -34,6 +36,8 @@ namespace br_ufes_inf_prog3_trab20152_dominio{
             void increaseNumSinc();
             float getPercentSinc();
             float getPercentAssin();
+            void putAvaliacaoDocente(Avaliacao* a);
+            float getMediaNotasDocente();
     };
 
 } //namespace dominio

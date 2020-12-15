@@ -88,8 +88,6 @@ void ConversorCSVDisciplina::criarObjetoDeLinhaCSV(vector<string>& dados, vector
 	Disciplina* disc = new Disciplina(codigo,nome,p,d);
 	leitor->docentes.at(login)->increaseNumDisc();
 	lista.push_back(disc);
-	//leitor->docentes.at(login)->setNumAtiv(leitor->getDisciplinas().at(disc->getCodigo())->getNumAtiv());
-	//leitor->docentes.at(login)->increaseNumSinc(leitor->getDisciplinas().at(disc->getCodigo())->getNumSinc());
 }
 
 void Leitor::lerMatriculas(string& nomeArquivoMatriculas) {
@@ -189,6 +187,7 @@ void ConversorCSVAvaliacao::criarObjetoDeLinhaCSV(vector<string>& dados, vector<
 	Atividade* ativ = leitor->getDisciplinas().at(codigoDisc)->getAtividades().at(num-1);
 	Avaliacao* a = new Avaliacao(nota,ativ);
 	leitor->getEstudantes().at(mat)->putAvaliacao(a);
+	leitor->getDocentes().at(leitor->getDisciplinas().at(codigoDisc)->getDocente()->getLogin())->putAvaliacaoDocente(a);
 	lista.push_back(a);
 }
 
