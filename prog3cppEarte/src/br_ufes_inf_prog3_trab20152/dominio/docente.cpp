@@ -8,19 +8,12 @@ namespace br_ufes_inf_prog3_trab20152_dominio{
         this->paginaWeb = paginaWeb;
     }
 
-    Docente* Docente::cadastraDocente(){
-        string nome;
-        string login;
-        string pgWeb;
-        cout << "Nome: " << endl;
-        cin.ignore();
-        getline(cin,nome);
-        cout << "Login: " << endl;
-        cin >> login;
-        cout << "Pagina Web: " << endl;
-        cin >> pgWeb;
-        Docente* d = new Docente(nome,login,pgWeb);
-        return d;
+    int Docente::getNumDisc(){
+        return this->numDisc;
+    }
+
+    void Docente::increaseNumDisc(){
+        this->numDisc++;
     }
 
     string Docente::getNome(){
@@ -33,6 +26,35 @@ namespace br_ufes_inf_prog3_trab20152_dominio{
 
     string Docente::getPagWeb(){
         return this->paginaWeb;
+    }
+
+    void Docente::increasePeriodos(Periodo* p){
+        periodos.insert(p);
+    }
+    int Docente::getNumPeriodosDoc(){
+        return periodos.size();
+    }
+
+    void Docente::setNumAtiv(int n){
+        this->numAtiv = n;
+    }
+
+    float Docente::getMediaAtiv(){
+        return (float)this->numAtiv/this->numDisc;
+    }
+
+    void Docente::increaseNumSinc(int n){
+        cout << "increaseSin N: " << n << endl;     
+        this->numSinc += n;
+        cout << "IncresaseSINcnumSIN: " << this->numSinc << endl;
+    }
+    float Docente::getPercentSinc(){
+        if(this->numAtiv != 0)
+            return (float)this->numSinc/this->numAtiv *100;
+        return 0;
+    }
+    float Docente::getPercentAssin(){
+        return 100 - this->getPercentSinc();
     }
 
     void Docente::imprimeDocente(Docente* d){

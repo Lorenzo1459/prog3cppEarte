@@ -24,54 +24,57 @@ void Relatorio::relatorioDisc(map<string, Disciplina*> mapa, map<string, Periodo
         }
 		writer->visao_geral(texto_final);
 }
-/*	
-void Relatorio::relatorioDocente(map<string, Docente*> mapa, File file2) {	
-			//Escritor_csv writer = new Escritor_csv();
+	
+void Relatorio::relatorioDocente(map<string, Docente*> mapa) {	
+			Escritor_csv* writer = new Escritor_csv();
+			string texto_final;
 			//Z-A nome docente
 			
 			for(auto const& aux : mapa) {		
-				string nome = aux.getValue().getNomeDocente();
-				int num_disc = aux.getValue().getNumDisc();
-				int num_periodos_dif = aux.getValue().contaPeriodosDif();
-				float percentSinc = aux.getValue().percentSinc();
-				float percentAssinc = aux.getValue().percentAssinc();
-				float mediaAtiv_Disc = aux.getValue().getAtivPorDisc();
-				float mediaNotas = aux.getValue().getMediaNotasDocente();
-								
-				writer.docentes(nome, num_disc, num_periodos_dif, mediaAtiv_Disc, percentSinc, percentAssinc, mediaNotas, file2);
+				string nome = aux.second->getNome();
+				string num_disc = to_string(aux.second->getNumDisc());
+				string num_periodos_dif = to_string(aux.second->getNumPeriodosDoc());
+				string percentSinc = to_string(aux.second->getPercentSinc());
+				string percentAssinc = to_string(aux.second->getPercentAssin());
+				string mediaAtiv_Disc = to_string(aux.second->getMediaAtiv());
+				//string mediaNotas = to_string(aux.getValue().getMediaNotasDocente());
+				texto_final += nome + ";" + num_disc + ";" + num_periodos_dif + ";" + mediaAtiv_Disc + ";" + percentSinc + ";" + percentAssinc + "\n";
 			}			
+			writer->docentes(texto_final);
 	}	
 	
-	public void relatorioEstudante(Map<Long, Estudante> mapa, File file3) {
-		Escritor_csv writer = new Escritor_csv();
+	void Relatorio::relatorioEstudante(map<long, Estudante*> mapa) {
+		Escritor_csv* writer = new Escritor_csv();
+		string texto_final;
 		//99-0 avaliações && A-Z nome
 		
-		for(Map.Entry<Long, Estudante> aux : mapa.entrySet()) {
-			Long mat = aux.getValue().getMatricula();
-			String nome = aux.getValue().getNomeEstudante();
-			Float mediaDisc_per = aux.getValue().mediaDiscPeriodo();
-			Float mediaAv_disc = aux.getValue().getQtAvalicaoPorDisc(aux.getValue());
-			Float mediaNotas = aux.getValue().mediaNotasAluno(aux.getValue());
-						
-			writer.estudantes(mat, nome, mediaDisc_per, mediaAv_disc, mediaNotas, file3);
+		for(auto const& aux : mapa) {
+			string mat = to_string(aux.second->getMatricula());
+			string nome = aux.second->getNomeEstudante();
+			string mediaDisc_per = to_string(aux.second->getMediaDiscPer());
+			string mediaAv_disc = to_string(aux.second->getMediaAvDisc());
+			string mediaNotas = to_string(aux.second->getMediaNota());
+			texto_final += mat + ";" + nome + ";" + mediaDisc_per + ";" + mediaAv_disc + ";" + mediaNotas + "\n";
 		}
+		writer->estudantes(texto_final);
 	}
 	
-	public void relatorioDiscDocente(Docente d,Map<String, Disciplina> mapa, File file4) {
-		Escritor_csv writer = new Escritor_csv();
-		for(Map.Entry<String, Disciplina> aux : mapa.entrySet()) {
-			if(aux.getValue().getDocenteDisc().getLogin().equals(d.getLogin()))
-			{
-				String docente = aux.getValue().getDocenteDisc().getLogin();
-				String periodo = aux.getValue().getPeriodoDisc().getNomePeriodo();
-				String codigo = aux.getValue().getCodigo();
-				String disc = aux.getValue().getNomediscip();
-				float percentSinc = aux.getValue().getPerSinc();
-				float percentAssinc = aux.getValue().getPerAssinc();
-				
-				writer.disciplinas(docente,periodo,codigo,disc,percentSinc,percentAssinc,file4);
+	void Relatorio::relatorioDiscDocente(map<string,Docente*> doc,map<string, Disciplina*> mapa) {
+		Escritor_csv* writer = new Escritor_csv();
+		string texto_final;
+		for(auto const& aux : mapa) {
+			for(auto const& docente : doc){
+				if(aux.second->getDocente()->getLogin().compare(docente.first) == 0){
+					string docente = aux.second->getDocente()->getLogin();
+					string periodo = aux.second->getPeriodo()->getPeriodoString();
+					string codigo = aux.second->getCodigo();
+					string disc = aux.second->getNomeDisc();
+					string percentSinc = to_string(aux.second->getPercentSinc());
+					string percentAssinc = to_string(aux.second->getPercentAssinc());
+					texto_final += docente + ";" + periodo + ";" + codigo + ";" + disc + ";" + percentSinc + ";" + percentAssinc + "\n";
+				}
 			}
 		}
+		writer->disciplinas(texto_final);
 	}
-*/
 }

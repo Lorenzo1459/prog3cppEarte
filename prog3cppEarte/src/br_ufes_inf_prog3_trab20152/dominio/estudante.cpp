@@ -7,17 +7,12 @@ namespace br_ufes_inf_prog3_trab20152_dominio{
         this->nome = nome;
     }
 
-    Estudante* Estudante::cadastraEstudante(){
-        long matricula;
-        string nome;
-        cout << "Matricula: " << endl;
-        cin >> matricula;
-        cout << "Nome: " << endl;
-        cin.ignore();
-        getline(cin,nome);
+    vector<Avaliacao*> Estudante::getAvaliacao(){
+        return this->avaliacoes;
+    }
 
-        Estudante* e = new Estudante(matricula,nome);
-        return e;
+    void Estudante::putAvaliacao(Avaliacao* a){
+        avaliacoes.push_back(a);
     }
 
     long Estudante::getMatricula(){
@@ -26,6 +21,39 @@ namespace br_ufes_inf_prog3_trab20152_dominio{
 
     string Estudante::getNomeEstudante(){
         return this->nome;
+    }
+
+    void Estudante::increaseDisc(){
+        this->qtDisc++;
+    }
+
+    int Estudante::getQtDisc(){
+        return this->qtDisc;
+    }
+
+    void Estudante::increasePer(string per){
+        this->periodos.insert(per);
+    }
+
+    int Estudante::getQtPer(){
+        return periodos.size();
+    }
+
+    float Estudante::getMediaDiscPer(){
+        return (float)this->getQtDisc()/this->getQtPer();
+    }
+
+    float Estudante::getMediaNota(){
+        float soma = 0;
+        for(Avaliacao* a : avaliacoes)
+            soma += a->getNota();
+        if(avaliacoes.size() != 0)
+            return soma/avaliacoes.size();
+        return 0;
+    }
+
+    float Estudante::getMediaAvDisc(){
+        return (float)avaliacoes.size()/this->qtDisc;
     }
 
     void Estudante::imprimeEstudante(Estudante* e){

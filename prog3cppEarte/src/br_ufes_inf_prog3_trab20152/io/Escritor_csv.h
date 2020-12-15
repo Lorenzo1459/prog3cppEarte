@@ -26,6 +26,9 @@ namespace br_ufes_inf_prog3_trab20152_io {
         public:
             Escritor_csv();
             void visao_geral(string texto_final);
+            void docentes(string texto_final);
+            void estudantes(string texto_final);
+            void disciplinas(string texto_final);
     };
 
 }

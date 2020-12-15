@@ -2,14 +2,14 @@
 
 namespace br_ufes_inf_prog3_trab20152_io {
 
-Leitor::Leitor(string nomeArquivoPeriodo, string nomeArquivoDocente, string nomeArquivoDisciplina, string nomeArquivoEstudante, string nomeArquivoMatriculas, string nomeArquivoAtividades) {
+Leitor::Leitor(string nomeArquivoPeriodo, string nomeArquivoDocente, string nomeArquivoDisciplina, string nomeArquivoEstudante, string nomeArquivoMatriculas, string nomeArquivoAtividades, string nomeArquivoAvaliacoes) {
 	lerPeriodos(nomeArquivoPeriodo);
 	lerDocente(nomeArquivoDocente);
 	lerDisciplina(nomeArquivoDisciplina);
 	lerEstudantes(nomeArquivoEstudante);
 	lerMatriculas(nomeArquivoMatriculas);
 	lerAtividades(nomeArquivoAtividades);
-	//lerAvaliacoes(nomeArquivoAvaliacoes);
+	lerAvaliacoes(nomeArquivoAvaliacoes);
 }
 
 map<string, Periodo*> Leitor::getPeriodos() const {
@@ -34,6 +34,10 @@ vector<Matricula*> Leitor::getMatriculas() const {
 
 vector<Atividade*> Leitor::getAtividades() const {
 	return atividades;
+}
+
+vector<Avaliacao*> Leitor::getAvaliacoes() const {
+	return avaliacoes;
 }
 
 void Leitor::lerPeriodos(string& nomeArquivoPeriodo) {
@@ -75,13 +79,17 @@ void Leitor::lerDisciplina(string& nomeArquivoDisciplina) {
 
 void ConversorCSVDisciplina::criarObjetoDeLinhaCSV(vector<string>& dados, vector<Disciplina*>& lista) const {
 	string per = dados[0];
-	string codigo = dados[1];
+	string codigo = dados[1] + "-" + per;
 	string nome = dados[2];
 	string login = dados[3];
 	Periodo* p = leitor->periodos.at(per);
 	Docente* d = leitor->docentes.at(login);
+	leitor->docentes.at(login)->increasePeriodos(p);
 	Disciplina* disc = new Disciplina(codigo,nome,p,d);
+	leitor->docentes.at(login)->increaseNumDisc();
 	lista.push_back(disc);
+	//leitor->docentes.at(login)->setNumAtiv(leitor->getDisciplinas().at(disc->getCodigo())->getNumAtiv());
+	//leitor->docentes.at(login)->increaseNumSinc(leitor->getDisciplinas().at(disc->getCodigo())->getNumSinc());
 }
 
 void Leitor::lerMatriculas(string& nomeArquivoMatriculas) {
@@ -90,9 +98,9 @@ void Leitor::lerMatriculas(string& nomeArquivoMatriculas) {
 }
 
 void ConversorCSVMatriculas::criarObjetoDeLinhaCSV(vector<string>& dados, vector<Matricula*>& lista) const{
+	string codigoDisc = dados[0];
 	Tokenizer tok(dados[0],'-');
 	vector<string> cods = tok.remaining();
-	string codigoDisc = cods[0];
 	long mat = stol(dados.at(1));
 	if(leitor->disciplinas.count(codigoDisc) == 0) throw InconsistenciaException("Disciplina: " + dados[0]);
 	Disciplina* disc = leitor->disciplinas.at(codigoDisc);
@@ -100,6 +108,8 @@ void ConversorCSVMatriculas::criarObjetoDeLinhaCSV(vector<string>& dados, vector
 	Estudante* e = leitor->estudantes.at(mat);
 	Matricula* matricula = new Matricula(disc,e);
 	leitor->disciplinas.at(codigoDisc)->putEstudante(e);
+	leitor->estudantes.at(mat)->increaseDisc();
+	leitor->estudantes.at(mat)->increasePer(cods[1]);
 	lista.push_back(matricula);
 }
 
@@ -110,9 +120,7 @@ void Leitor::lerAtividades(string& nomeArquivoAtividade) {
 
 void ConversorCSVAtividades::criarObjetoDeLinhaCSV(vector<string>& dados, vector<Atividade*>& lista) const{
 	Atividade* atividade = nullptr;
-	Tokenizer tok(dados[0],'-');
-	vector<string> cods = tok.remaining();
-	string codigoDisc = cods[0];
+	string codigoDisc = dados[0];
 	if(leitor->disciplinas.count(codigoDisc) == 0) throw InconsistenciaException("Disciplina: " + dados[0]);
 	string nome = dados[1];
 	char tipo = dados[2][0];
@@ -123,6 +131,7 @@ void ConversorCSVAtividades::criarObjetoDeLinhaCSV(vector<string>& dados, vector
 			string horaAula = dados[4];
 			Aula* aula = new Aula(tipo, 1, nome, dataAula, horaAula);
 			atividade = aula;
+			leitor->disciplinas.at(codigoDisc)->increaseNumSin();
 			break;
 		}
 		case 'P' : case 'p' : {
@@ -132,6 +141,7 @@ void ConversorCSVAtividades::criarObjetoDeLinhaCSV(vector<string>& dados, vector
 			string conteudoProva = dados[5];
 			Prova* prova = new Prova(tipo, 1, nome, dataProva, horaProva, conteudoProva);
 			atividade = prova;
+			leitor->disciplinas.at(codigoDisc)->increaseNumSin();
 			break;
 		}
 		case 'T' : case 't' : {
@@ -139,38 +149,46 @@ void ConversorCSVAtividades::criarObjetoDeLinhaCSV(vector<string>& dados, vector
 			time_t dataTrabalho = parseDate(dados[2],DATE_FORMAT_PT_BR_SHORT);
 			string cargaHorarioTrabalho = dados[7];
 			int qtIntegrantesTrabalho = stoi(dados[6]);
-			cout << "2" << endl;
 			Trabalho* trabalho = new Trabalho(tipo, 1, nome, dataTrabalho, cargaHorarioTrabalho, qtIntegrantesTrabalho);
 			atividade = trabalho;
+			leitor->disciplinas.at(codigoDisc)->increaseNumAssinc();
 			break;
 		}
 		case 'E' : case 'e' : {
 			string conteudoEstudo = dados[5];
 			Estudo* estudo = new Estudo(tipo, 1, nome, conteudoEstudo);
 			atividade = estudo;
+			leitor->disciplinas.at(codigoDisc)->increaseNumAssinc();
 			break;
 		}
 	}
+	cout << "increaseSin: " << leitor->disciplinas.at(codigoDisc)->getNumSinc() << endl;
+	cout << "Num Ativ: " << leitor->disciplinas.at(codigoDisc)->getNumAtiv() << endl;
 	atividade->setNumAtiv(atividade, leitor->disciplinas.at(codigoDisc)->getNumAtiv());
 	leitor->disciplinas.at(codigoDisc)->putAtividade(atividade);
 	lista.push_back(atividade);
 }
 
-/*
-void Leitor::LerAvaliacoes(string& nomeArquivoAvaliacoes){
-	vector<Avaliacoes*> lista;
-	ConversorCSVAvaliacoes conversor(this);
-	conversor.lerArquivo(nomeArquivoAvaliacoes, lista);
+void Leitor::lerAvaliacoes(string& nomeArquivoAvaliacoes){
+	ConversorCSVAvaliacao conversor(this);
+	conversor.lerArquivo(nomeArquivoAvaliacoes, avaliacoes);
 }
 
-void ConversorCSVAvaliacoes::criarObjetoDeLinhaCSV(vector<string>& dados, vector<Estudante*>& lista) const {
-	Tokenizer tok(dados[0],'-');
-	vector<string> cods = tok.remaining();
-	string codigoDisc = cods[0];
+void ConversorCSVAvaliacao::criarObjetoDeLinhaCSV(vector<string>& dados, vector<Avaliacao*>& lista) const {
+	string codigoDisc = dados[0];
 	long mat = stol(dados.at(1));
-	
+	int verifica = 0;
+	for(Matricula* m : leitor->getMatriculas())
+		if(m->getDisciplina()->getCodigo() == codigoDisc && m->getEstudante()->getMatricula() == mat) verifica = 1;
+	if(verifica == 0) throw InconsistenciaException("Avaliacao: " + dados[1] + "em" + dados[0]);
+	int num = stoi(dados[2]);
+	cout << "Dados[3]: " << dados[3] << endl;
+	float nota = stof(dados[3]);
+	Atividade* ativ = leitor->getDisciplinas().at(codigoDisc)->getAtividades().at(num-1);
+	Avaliacao* a = new Avaliacao(nota,ativ);
+	leitor->getEstudantes().at(mat)->putAvaliacao(a);
+	lista.push_back(a);
 }
-*/
 
 void Leitor::lerEstudantes(string& nomeArquivoEstudante) {
 	vector<Estudante*> lista;

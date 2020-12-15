@@ -45,6 +45,31 @@ namespace br_ufes_inf_prog3_trab20152_dominio{
         return atividades.size();
     }
 
+    int Disciplina::getNumSinc(){
+        cout << "\n\nNum Sinc: " << this->numSinc  << "\n" << endl;
+        return this->numSinc;
+    }
+
+    void Disciplina::increaseNumSin(){
+        this->numSinc++;
+    }
+
+    void Disciplina::increaseNumAssinc(){
+        this->numAssinc++;
+    }
+
+    float Disciplina::getPercentSinc(){
+        if((this->numSinc + this->numAssinc) != 0)
+            return (float)100*this->numSinc/(this->numSinc+this->numAssinc);
+        return 0;
+    }
+
+    float Disciplina::getPercentAssinc(){
+        if((this->numSinc + this->numAssinc) != 0)
+            return 100 - this->getPercentSinc();
+        return 0;
+    }
+
     void Disciplina::imprimeAtividades(Disciplina* d){
         for(int i=0; i < d->atividades.size(); i++)
             cout << d->getAtividades().at(i)->getTipoAtividade() << endl;
