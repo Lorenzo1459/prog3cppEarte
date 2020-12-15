@@ -34,8 +34,8 @@ void Relatorio::relatorioDocente(map<string, Docente*> mapa) {
 				string nome = aux.second->getNome();
 				string num_disc = to_string(aux.second->getNumDisc());
 				string num_periodos_dif = to_string(aux.second->getNumPeriodosDoc());
-				percentSinc << fixed << setprecision(1) << aux.second->getPercentSinc();
-				percentAssinc << fixed << setprecision(1) << aux.second->getPercentAssin();
+				percentSinc << fixed << setprecision(0) << aux.second->getPercentSinc();
+				percentAssinc << fixed << setprecision(0) << aux.second->getPercentAssin();
 				mediaAtiv_Disc << fixed << setprecision(1) << aux.second->getMediaAtiv();
 				mediaNotas << fixed << setprecision(1) << aux.second->getMediaNotasDocente();
 				texto_final += nome + ";" + num_disc + ";" + num_periodos_dif + ";" + mediaAtiv_Disc.str() + ";" + percentSinc.str() + "%" + ";" + percentAssinc.str() + "%" + ";" + mediaNotas.str() + "\n";
@@ -73,8 +73,8 @@ void Relatorio::relatorioDocente(map<string, Docente*> mapa) {
 					vector<string> cods = tok.remaining();
 					string codigo = cods[0];
 					string disc = aux.second->getNomeDisc();
-					percentSinc << fixed << setprecision(1) << aux.second->getPercentSinc();
-					percentAssinc << fixed << setprecision(1) << aux.second->getPercentAssinc();
+					percentSinc << fixed << setprecision(0) << aux.second->getPercentSinc();
+					percentAssinc << fixed << setprecision(0) << aux.second->getPercentAssinc();
 					texto_final += docente + ";" + periodo + ";" + codigo + ";" + disc + ";" + percentSinc.str() + "%" + ";" + percentAssinc.str() + "%" + "\n";
 				}
 			}
