@@ -28,12 +28,7 @@ int main(int argc, char **argv){
         if (! nomeArquivoPeriodo.empty() && ! nomeArquivoDocente.empty() && ! nomeArquivoDisciplina.empty() && ! nomeArquivoEstudante.empty() && ! nomeArquivoMatriculas.empty() && ! nomeArquivoAtividades.empty() && ! nomeArquivoAvaliacoes.empty()) {
             Leitor* leitor = new Leitor(nomeArquivoPeriodo, nomeArquivoDocente, nomeArquivoDisciplina, nomeArquivoEstudante, nomeArquivoMatriculas, nomeArquivoAtividades, nomeArquivoAvaliacoes);
             Relatorio* relatorio = new Relatorio();
-            //cout << p.first << endl;
             relatorio->relatorioDisc(leitor->getDisciplinas(),leitor->getPeriodos());
-			for(pair<string,Disciplina*> o : leitor->getDisciplinas()){
-                cout << "------" << o.second->getCodigo() << "------" << endl;
-                cout << o.second->getDocente()->getNome() << endl;
-            }
             relatorio->relatorioDocente(leitor->getDocentes());
             relatorio->relatorioEstudante(leitor->getEstudantes());
             relatorio->relatorioDiscDocente(leitor->getDocentes(),leitor->getDisciplinas());
