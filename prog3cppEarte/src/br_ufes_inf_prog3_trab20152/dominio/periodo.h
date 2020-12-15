@@ -12,7 +12,6 @@ namespace br_ufes_inf_prog3_trab20152_dominio{
     class Periodo{
     int ano;
     char semestre;
-    //vector<Disciplina*>* disciplinas;
         
     public:
         Periodo(int ano, char semestre);

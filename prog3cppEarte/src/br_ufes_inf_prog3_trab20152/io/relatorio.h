@@ -14,6 +14,7 @@
 #include "../dominio/docente.h"
 #include "../dominio/estudante.h"
 #include "../dominio/avaliacao.h"
+#include "../../br_ufes_inf_nemo_cpp_util/Tokenizer.h"
 #include "Escritor_csv.h"
 
 #include "../../br_ufes_inf_nemo_cpp_util/StringUtils.h"

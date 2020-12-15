@@ -69,7 +69,9 @@ void Relatorio::relatorioDocente(map<string, Docente*> mapa) {
 					stringstream percentSinc, percentAssinc;
 					string docente = aux.second->getDocente()->getLogin();
 					string periodo = aux.second->getPeriodo()->getPeriodoString();
-					string codigo = aux.second->getCodigo();
+					Tokenizer tok(aux.second->getCodigo(),'-');
+					vector<string> cods = tok.remaining();
+					string codigo = cods[0];
 					string disc = aux.second->getNomeDisc();
 					percentSinc << fixed << setprecision(1) << aux.second->getPercentSinc();
 					percentAssinc << fixed << setprecision(1) << aux.second->getPercentAssinc();

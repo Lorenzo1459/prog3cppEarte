@@ -11,7 +11,6 @@
 #include "../dominio/periodo.h"
 #include "../dominio/matricula.h"
 #include "../dominio/avaliacao.h"
-#include "../dominio/discDocente.h"
 #include "../atividades/aula.h"
 #include "../atividades/prova.h"
 #include "../atividades/estudo.h"

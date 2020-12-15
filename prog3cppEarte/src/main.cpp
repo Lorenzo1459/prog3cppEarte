@@ -2,14 +2,12 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-//#include "br_ufes_inf_prog3_trab20152/AplInveMid.h"
 #include "br_ufes_inf_prog3_trab20152/io/Exceptions.h"
 #include "br_ufes_inf_prog3_trab20152/io/Leitor.h"
 #include "br_ufes_inf_prog3_trab20152/io/Escritor_csv.h"
 #include "br_ufes_inf_prog3_trab20152/io/relatorio.h"
 
 using namespace std;
-//using namespace br_ufes_inf_prog3_trab20152;
 using namespace br_ufes_inf_prog3_trab20152_io;
 
 int main(int argc, char **argv){
