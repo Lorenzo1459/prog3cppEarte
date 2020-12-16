@@ -52,6 +52,7 @@ void ConversorCSVPeriodo::criarObjetoDeLinhaCSV(vector<string>& dados, vector<Pe
 	int ano = stoi(dados[0]);
 	char semestre = dados[1][0];
 	Periodo* p = new Periodo(ano,semestre);
+	if(leitor->periodos.count(p->getPeriodoString()) != 0) throw InconsistenciaException("Cadastro repetido : " + p->getPeriodoString());
 	lista.push_back(p);
 }
 
@@ -66,6 +67,7 @@ void Leitor::lerDocente(string& nomeArquivoDocente) {
 void ConversorCSVDocente::criarObjetoDeLinhaCSV(vector<string>& dados, vector<Docente*>& lista) const {
 	if (isNumber(dados.at(0)) || isNumber(dados.at(1)) || isNumber(dados.at(2))) throw FormatacaoException();
 	Docente* docente = new Docente(dados[1], dados[0], dados[2]);
+	if(leitor->docentes.count(docente->getLogin()) != 0) throw InconsistenciaException("Cadastro repetido : " + docente->getLogin());
 	lista.push_back(docente);
 }
 
@@ -82,10 +84,13 @@ void ConversorCSVDisciplina::criarObjetoDeLinhaCSV(vector<string>& dados, vector
 	string codigo = dados[1] + "-" + per;
 	string nome = dados[2];
 	string login = dados[3];
+	if(leitor->periodos.count(per) == 0) throw InconsistenciaException("Referência Inválida :" + per);	
 	Periodo* p = leitor->periodos.at(per);
+	if(leitor->docentes.count(login) == 0) throw InconsistenciaException("Referência Inválida :" + login);	
 	Docente* d = leitor->docentes.at(login);
 	leitor->docentes.at(login)->increasePeriodos(p);
 	Disciplina* disc = new Disciplina(codigo,nome,p,d);
+	if(leitor->disciplinas.count(disc->getCodigo()) != 0) throw InconsistenciaException("Cadastro repetido : " + disc->getCodigo());
 	leitor->docentes.at(login)->increaseNumDisc();
 	lista.push_back(disc);
 }
@@ -100,11 +105,12 @@ void ConversorCSVMatriculas::criarObjetoDeLinhaCSV(vector<string>& dados, vector
 	Tokenizer tok(dados[0],'-');
 	vector<string> cods = tok.remaining();
 	long mat = stol(dados.at(1));
-	if(leitor->disciplinas.count(codigoDisc) == 0) throw InconsistenciaException("Disciplina: " + dados[0]);
+	if(leitor->disciplinas.count(codigoDisc) == 0) throw InconsistenciaException("Referência Inválida: " + dados[0]);
 	Disciplina* disc = leitor->disciplinas.at(codigoDisc);
-	if(leitor->estudantes.count(mat) == 0) throw InconsistenciaException("Estudante: " + dados[1]);
+	if(leitor->estudantes.count(mat) == 0) throw InconsistenciaException("Referência Inválida: " + dados[1]);
 	Estudante* e = leitor->estudantes.at(mat);
 	Matricula* matricula = new Matricula(disc,e);
+	//if((leitor->disciplinas.at(codigoDisc)->getEstudantes().at(mat)->getMatricula()) == mat) throw  InconsistenciaException("Matrícula repetida : " + to_string(mat) + "em" + codigoDisc);
 	leitor->disciplinas.at(codigoDisc)->putEstudante(e);
 	leitor->estudantes.at(mat)->increaseDisc();
 	leitor->estudantes.at(mat)->increasePer(cods[1]);
@@ -119,10 +125,10 @@ void Leitor::lerAtividades(string& nomeArquivoAtividade) {
 void ConversorCSVAtividades::criarObjetoDeLinhaCSV(vector<string>& dados, vector<Atividade*>& lista) const{
 	Atividade* atividade = nullptr;
 	string codigoDisc = dados[0];
-	if(leitor->disciplinas.count(codigoDisc) == 0) throw InconsistenciaException("Disciplina: " + dados[0]);
+	if(leitor->disciplinas.count(codigoDisc) == 0) throw InconsistenciaException("Referência Inválida:" + dados[0]);
 	Disciplina* d = leitor->disciplinas.at(codigoDisc);
-	string nome = dados[1];
-	char tipo = dados[2][0];
+	string nome = dados[1];	
+	char tipo = dados[2][0];	
 	switch(tipo){
 		case 'A' : case 'a' : {
 			if (! validDate(dados.at(3), DATE_FORMAT_PT_BR_SHORT)) throw FormatacaoException();
@@ -162,6 +168,9 @@ void ConversorCSVAtividades::criarObjetoDeLinhaCSV(vector<string>& dados, vector
 			leitor->disciplinas.at(codigoDisc)->increaseNumAssinc();
 			break;
 		}
+		default:
+			throw InconsistenciaException("Dado inválido : " + tipo);
+			break;
 	}
 	atividade->setNumAtiv(atividade, leitor->disciplinas.at(codigoDisc)->getNumAtiv());
 	leitor->disciplinas.at(codigoDisc)->putAtividade(atividade);
@@ -180,12 +189,16 @@ void ConversorCSVAvaliacao::criarObjetoDeLinhaCSV(vector<string>& dados, vector<
 	int verifica = 0;
 	for(Matricula* m : leitor->getMatriculas())
 		if(m->getDisciplina()->getCodigo() == codigoDisc && m->getEstudante()->getMatricula() == mat) verifica = 1;
-	if(verifica == 0) throw InconsistenciaException("Avaliacao: " + dados[1] + "em" + dados[0]);
+	if(verifica == 0) throw InconsistenciaException("Avaliacao: " + dados[1] + "para" + dados[0]);
 	int num = stoi(dados[2]);
 	replace(dados[3].begin(),dados[3].end(),',','.');
 	float nota = stof(dados[3]);
 	Atividade* ativ = leitor->getDisciplinas().at(codigoDisc)->getAtividades().at(num-1);
 	Avaliacao* a = new Avaliacao(nota,ativ);
+	
+	//if(find(leitor->getAvaliacoes().begin(), leitor->getAvaliacoes().end(), a) != leitor->getAvaliacoes().end()) {
+	//	throw InconsistenciaException("Avaliacao repetida :" + dados[1] + " para atividade " + to_string(ativ->getNumAtiv()) + " de " + codigoDisc);
+	//}
 	leitor->getEstudantes().at(mat)->putAvaliacao(a);
 	leitor->getDocentes().at(leitor->getDisciplinas().at(codigoDisc)->getDocente()->getLogin())->putAvaliacaoDocente(a);
 	lista.push_back(a);
@@ -203,8 +216,8 @@ void ConversorCSVEstudante::criarObjetoDeLinhaCSV(vector<string>& dados, vector<
 	string aux = dados[0];
 	long mat = stol(aux);
 	Estudante* e = new Estudante(mat,dados[1]);
+	if(leitor->estudantes.count(e->getMatricula()) != 0) throw InconsistenciaException("Cadastro repetido : " + e->getMatricula());
 	lista.push_back(e);
 }
 
-
-} /* namespace br_ufes_inf_prog3_trab20152_io */
+}

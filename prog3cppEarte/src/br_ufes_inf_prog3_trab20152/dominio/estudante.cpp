@@ -54,11 +54,7 @@ namespace br_ufes_inf_prog3_trab20152_dominio{
 
     float Estudante::getMediaAvDisc(){
         return (float)avaliacoes.size()/this->qtDisc;
-    }
-
-    void Estudante::imprimeEstudante(Estudante* e){
-        cout << "    " << e->getMatricula() << endl;
-    }
+    }  
 
 } //namespace dominio
 

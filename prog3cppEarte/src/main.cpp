@@ -11,7 +11,8 @@ using namespace std;
 using namespace br_ufes_inf_prog3_trab20152_io;
 
 int main(int argc, char **argv){
-    string nomeArquivoPeriodo, nomeArquivoDocente, nomeArquivoDisciplina, nomeArquivoEstudante, nomeArquivoMatriculas, nomeArquivoAtividades, nomeArquivoAvaliacoes;
+    try{
+        string nomeArquivoPeriodo, nomeArquivoDocente, nomeArquivoDisciplina, nomeArquivoEstudante, nomeArquivoMatriculas, nomeArquivoAtividades, nomeArquivoAvaliacoes;
 		string pFlag("-p"), dFlag("-d"), oFlag("-o"), eFlag("-e"), mFlag("-m"), aFlag("-a"), nFlag("-n");
 
 		for (int i = 0; i < argc; i++) {
@@ -35,4 +36,14 @@ int main(int argc, char **argv){
 		else {
 			throw IOException();
         }
+    }
+    catch(InconsistenciaException& e){
+        cout << "Dados inconsistentes (" << e.what() << ")" << endl;
+    }
+    catch(FormatacaoException&){
+        cout << "Erro de formatacao." << endl;
+    }
+    catch(IOException&){
+        cout << "Erro de I/O." << endl;
+    }
 }

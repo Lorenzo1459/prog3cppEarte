@@ -23,8 +23,7 @@ namespace br_ufes_inf_prog3_trab20152_dominio{
         long getMatricula();
         string getNomeEstudante();
         vector<Avaliacao*> getAvaliacao();
-        void putAvaliacao(Avaliacao* a);
-        void imprimeEstudante(Estudante* e);
+        void putAvaliacao(Avaliacao* a);        
         void increaseDisc();
         int getQtDisc();
         void increasePer(string per);

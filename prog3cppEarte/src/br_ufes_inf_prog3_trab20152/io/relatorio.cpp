@@ -12,7 +12,9 @@ void Relatorio::relatorioDisc(map<string, Disciplina*> mapa, map<string, Periodo
             for(auto const& aux : mapa) {
                 if(aux.second->getPeriodo()->getPeriodoString().compare(periodo.first) == 0) {
                     string periodo = aux.second->getPeriodo()->getPeriodoString();
-                    string cod = aux.second->getCodigo();					
+					Tokenizer tok(aux.second->getCodigo(),'-');
+					vector<string> cods = tok.remaining();
+                    string cod = cods[0];
                     string nome = aux.second->getNomeDisc();
                     string docente = aux.second->getDocente()->getNome();
                     string email = aux.second->getDocente()->getLogin() + "@ufes.br";
